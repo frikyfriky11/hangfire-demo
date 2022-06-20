@@ -36,7 +36,7 @@ public class CustomersController : ControllerBase
   public ActionResult Update([FromServices] IRepository repository, [FromServices] IBackgroundJobClient jobClient, int id, [FromBody] Customer customer)
   {
     jobClient.Enqueue<CustomersJobs>(jobs => jobs.SendUpdateMail(id, customer.Name));
-    
+
     repository.Update(id, customer);
 
     return NoContent();
@@ -46,7 +46,7 @@ public class CustomersController : ControllerBase
   [Route("customers/{id}")]
   public ActionResult Delete([FromServices] IRepository repository, [FromServices] IBackgroundJobClient jobClient, int id)
   {
-    jobClient.Enqueue<CustomersJobs>((jobs) => jobs.SendGoodbyeMail(id));
+    jobClient.Enqueue<CustomersJobs>(jobs => jobs.SendGoodbyeMail(id));
 
     repository.Delete(id);
 

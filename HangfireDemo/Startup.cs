@@ -13,7 +13,7 @@ public class Startup
   {
     _configuration = configuration;
   }
-  
+
   public void ConfigureServices(IServiceCollection services)
   {
     services.AddControllers();
@@ -24,7 +24,7 @@ public class Startup
       .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
       .UseSimpleAssemblyNameTypeSerializer()
       .UseRecommendedSerializerSettings()
-      .UseSqlServerStorage(_configuration.GetConnectionString("HangfireDb"), new SqlServerStorageOptions()
+      .UseSqlServerStorage(_configuration.GetConnectionString("HangfireDb"), new SqlServerStorageOptions
       {
         CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
         SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
