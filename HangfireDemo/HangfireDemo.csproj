@@ -6,4 +6,10 @@
         <ImplicitUsings>enable</ImplicitUsings>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Hangfire.AspNetCore" Version="1.7.29" />
+      <PackageReference Include="Hangfire.Core" Version="1.7.29" />
+      <PackageReference Include="Hangfire.SqlServer" Version="1.7.29" />
+    </ItemGroup>
+
 </Project>
