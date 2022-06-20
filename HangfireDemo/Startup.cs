@@ -1,5 +1,6 @@
 ﻿using Hangfire;
 using Hangfire.SqlServer;
+using HangfireDemo.Jobs;
 using HangfireDemo.Services;
 
 namespace HangfireDemo;
@@ -44,5 +45,7 @@ public class Startup
       endpoints.MapControllers();
       endpoints.MapHangfireDashboard();
     });
+
+    RecurringJob.AddOrUpdate<RecurringCustomersJobs>("daily-report", job => job.HourlyReport(), Cron.Daily(7, 0));
   }
 }
