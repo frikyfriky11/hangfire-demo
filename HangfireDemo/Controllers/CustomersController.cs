@@ -1,4 +1,6 @@
-﻿using HangfireDemo.Models;
+﻿using Hangfire;
+using HangfireDemo.Jobs;
+using HangfireDemo.Models;
 using HangfireDemo.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -31,8 +33,10 @@ public class CustomersController : ControllerBase
 
   [HttpPut]
   [Route("customers/{id}")]
-  public ActionResult Update([FromServices] IRepository repository, int id, [FromBody] Customer customer)
+  public ActionResult Update([FromServices] IRepository repository, [FromServices] IBackgroundJobClient jobClient, int id, [FromBody] Customer customer)
   {
+    jobClient.Enqueue<CustomersJobs>(jobs => jobs.SendUpdateMail(id, customer.Name));
+    
     repository.Update(id, customer);
 
     return NoContent();
@@ -40,8 +44,10 @@ public class CustomersController : ControllerBase
 
   [HttpDelete]
   [Route("customers/{id}")]
-  public ActionResult Delete([FromServices] IRepository repository, int id)
+  public ActionResult Delete([FromServices] IRepository repository, [FromServices] IBackgroundJobClient jobClient, int id)
   {
+    jobClient.Enqueue<CustomersJobs>((jobs) => jobs.SendGoodbyeMail(id));
+
     repository.Delete(id);
 
     return NoContent();
